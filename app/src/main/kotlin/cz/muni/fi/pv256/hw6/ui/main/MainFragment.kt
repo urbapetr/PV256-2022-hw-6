@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import cz.muni.fi.pv256.hw6.R
 import cz.muni.fi.pv256.hw6.data.Item
 import cz.muni.fi.pv256.hw6.databinding.MainFragmentBinding
 import cz.muni.fi.pv256.hw6.ui.detail.DetailActivity

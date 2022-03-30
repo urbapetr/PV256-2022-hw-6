@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import cz.muni.fi.pv256.hw6.R
 import cz.muni.fi.pv256.hw6.data.Item
+import cz.muni.fi.pv256.hw6.databinding.MainFragmentBinding
 import cz.muni.fi.pv256.hw6.ui.detail.DetailActivity
 import cz.muni.fi.pv256.hw6.ui.detail.DetailActivity.Companion.ITEM
 
@@ -19,7 +22,8 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    // TODO add MainFragmentBinding and don't forget to deinit it later
+    private var _binding: MainFragmentBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var adapter: MainAdapter
     private val viewModel: MainViewModel by viewModels()
@@ -29,16 +33,19 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // TODO refactor to use view binding
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO init adapter with RecyclerView
-        // use adapterOnClick function when creating the RecyclerView
-        // apply vertical DividerItemDecoration
+        adapter = MainAdapter { item -> adapterOnClick(item) }
+        binding.recyclerView.apply {
+            val itemDecoration = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+            addItemDecoration(itemDecoration)
+            adapter = this@MainFragment.adapter
+        }
 
         viewModel.items.observe(
             viewLifecycleOwner,
@@ -47,9 +54,7 @@ class MainFragment : Fragment() {
             }
         )
 
-        // TODO refactor to use view binding
-        val fab = view.findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener { fabOnClick() }
+        binding.fab.setOnClickListener { fabOnClick() }
     }
 
     private fun adapterOnClick(item: Item) {
@@ -60,5 +65,10 @@ class MainFragment : Fragment() {
 
     private fun fabOnClick() {
         viewModel.generateNewItems((11..21).random())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

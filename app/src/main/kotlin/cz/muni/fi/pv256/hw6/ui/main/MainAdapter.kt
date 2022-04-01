@@ -9,8 +9,11 @@ import cz.muni.fi.pv256.hw6.databinding.ListItemBinding
 class MainAdapter(private val onClick: (Item) -> Unit) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    // TODO implement data refresh
     var items = listOf<Item>()
+        set (value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class ViewHolder(itemBinding: ListItemBinding, val onClick: (Item) -> Unit) :
         RecyclerView.ViewHolder(itemBinding.root) {

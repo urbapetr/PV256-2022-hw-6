@@ -10,7 +10,7 @@ class MainAdapter(private val onClick: (Item) -> Unit) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     var items = listOf<Item>()
-        set (value) {
+        set(value) {
             field = value
             notifyDataSetChanged()
         }
